@@ -1,39 +1,61 @@
 <template>
   <div id="nav">
-    <div class="container clearfloat">
-      <div class="fl container-left">
-        <div class="logo" @click="handleLogoFn">
-          <img src="./img/logo.png" alt="logo" />
+    <div :class="{'transparent':scrollY > 100}">
+      <div class="container clearfloat">
+        <div class="fl container-left">
+          <div
+            class="logo"
+            @click="handleLogoFn"
+            @mouseenter="handleLogoEnter"
+            @mouseleave="handleLogoLeave"
+          >
+            <img src="./img/logo.gif" alt="logo" v-show="mouseState === 'out'" />
+            <img src="./img/logo_hover.gif" alt="logo" v-show="mouseState === 'enter'" />
+          </div>
         </div>
-      </div>
-      <div class="fr container-right">
-        <ul class="nav">
-          <li>首页</li>
-          <li>首页</li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
+        <div class="fr container-right">
+          <ul class="nav">
+            <li>首页</li>
+            <li>demo</li>
+            <li>demo</li>
+            <li>demo</li>
+            <li>demo</li>
+            <li>demo</li>
+            <li>demo</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
+
 export default {
   name: 'nav',
   data () {
     return {
-
+      mouseState: 'out'
     }
   },
   methods: {
     handleLogoFn () {
       console.log('!!!')
+    },
+    handleLogoEnter () {
+      this.mouseState = 'enter'
+    },
+    handleLogoLeave () {
+      this.mouseState = 'out'
     }
-  }
+  },
+  computed: {
+    ...mapState({
+      scrollY: state => state.scrollY,
+    })
+  },
 }
 </script>
 
@@ -41,12 +63,19 @@ export default {
 #nav {
   width: 100%;
   height: 60px;
-  background: #000000;
-
+  background: #ffffff;
+  border-bottom: 1px solid #f0f0f0;
+  z-index: 999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  .transparent {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
   .container {
     width: 1200px;
     height: 100%;
-    color: #ffffff;
+    color: #302c2c;
     margin: 0 auto;
 
     .container-left {
@@ -64,10 +93,12 @@ export default {
       }
     }
 
+
+
     .container-right {
       width: 70%;
       height: 100%;
-      background-color: #07073b;
+      background-color: #ffffff;
 
       .nav {
         width: 100%;
@@ -75,15 +106,17 @@ export default {
         display: flex;
         justify-content: space-around;
         align-items: center;
+
         li {
           width: 60px;
           height: 100%;
           line-height: 60px;
           font-size: 22px;
+
           &:hover {
             cursor: pointer;
-            color: #ffffff;
-            background-color: #f52425;
+            color: #a39696;
+            background-color: #ffffff;
           }
         }
       }
